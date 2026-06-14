@@ -2,9 +2,10 @@ import { LoginForm } from "@/components/login-form";
 
 export default function Page() {
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <div className="relative flex min-h-svh w-full items-center justify-center bg-[url('/images/heritage-studio.png')] bg-cover bg-center p-6 md:p-10">
+      <div className="absolute inset-0 bg-[hsl(var(--heritage-navy)/0.72)]" />
       <div className="w-full max-w-sm">
-        <LoginForm />
+        <LoginForm className="relative" />
       </div>
     </div>
   );

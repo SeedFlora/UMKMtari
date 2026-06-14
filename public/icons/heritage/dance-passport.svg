@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dance Passport">
+  <rect x="15" y="9" width="34" height="46" rx="5" fill="#13213B"/>
+  <rect x="20" y="15" width="24" height="34" rx="3" fill="#F8F0DF"/>
+  <circle cx="32" cy="27" r="7" fill="#C99A2E" stroke="#13213B" stroke-width="2"/>
+  <path d="M25 40H39M27 45H37" stroke="#8A2636" stroke-width="3" stroke-linecap="round"/>
+  <path d="M28 27C30 24 34 24 36 27M26 31C30 34 34 34 38 31" stroke="#13213B" stroke-width="2" stroke-linecap="round"/>
+</svg>
+

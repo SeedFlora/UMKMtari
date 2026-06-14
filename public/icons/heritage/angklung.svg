@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Angklung">
+  <path d="M16 10V54M48 10V54M13 16H51M13 48H51" stroke="#13213B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M24 16V48M40 16V48" stroke="#8A2636" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 22H30V43H22V22Z" fill="#C99A2E" stroke="#13213B" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M34 19H42V43H34V19Z" fill="#F8F0DF" stroke="#13213B" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M28 14L32 9L36 14" stroke="#C99A2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+

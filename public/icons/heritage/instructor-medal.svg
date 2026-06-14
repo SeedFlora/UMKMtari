@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Medal Instruktur">
+  <path d="M21 8H31L35 24H25L21 8Z" fill="#8A2636"/>
+  <path d="M33 8H43L39 24H29L33 8Z" fill="#13213B"/>
+  <circle cx="32" cy="38" r="16" fill="#C99A2E" stroke="#13213B" stroke-width="3"/>
+  <path d="M32 29L35 35L42 36L37 41L38 48L32 45L26 48L27 41L22 36L29 35L32 29Z" fill="#F8F0DF" stroke="#13213B" stroke-width="2" stroke-linejoin="round"/>
+</svg>
+

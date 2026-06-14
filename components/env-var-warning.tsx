@@ -3,16 +3,16 @@ import { Button } from "./ui/button";
 
 export function EnvVarWarning() {
   return (
-    <div className="flex gap-4 items-center">
-      <Badge variant={"outline"} className="font-normal">
-        Supabase environment variables required
+    <div className="flex items-center gap-3">
+      <Badge variant={"outline"} className="rounded-md bg-amber-50 font-normal text-amber-800">
+        Mode demo
       </Badge>
-      <div className="flex gap-2">
+      <div className="hidden gap-2 xl:flex">
         <Button size="sm" variant={"outline"} disabled>
-          Sign in
+          Login
         </Button>
         <Button size="sm" variant={"default"} disabled>
-          Sign up
+          Daftar
         </Button>
       </div>
     </div>

@@ -1,0 +1,9 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gong">
+  <path d="M13 54V12H51V54" stroke="#13213B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M10 54H54" stroke="#8A2636" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="32" cy="33" r="15" fill="#C99A2E" stroke="#13213B" stroke-width="3"/>
+  <circle cx="32" cy="33" r="6" fill="#F8F0DF" stroke="#13213B" stroke-width="2"/>
+  <path d="M45 18L51 12" stroke="#8A2636" stroke-width="3" stroke-linecap="round"/>
+  <path d="M42 21L48 15" stroke="#F8F0DF" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
