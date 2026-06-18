@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
+import { requireInstructorProfile } from "@/lib/bdms/auth";
 import { createSupabaseAdmin } from "@/lib/bdms/supabase-admin";
 
 function text(formData: FormData, key: string, fallback = "") {
@@ -12,6 +13,14 @@ function text(formData: FormData, key: string, fallback = "") {
 function numberValue(formData: FormData, key: string, fallback = 0) {
   const value = Number(formData.get(key));
   return Number.isFinite(value) ? value : fallback;
+}
+
+function scoreValue(formData: FormData, key: string, fallback = 3) {
+  return Math.min(5, Math.max(0, numberValue(formData, key, fallback)));
+}
+
+function checked(formData: FormData, key: string) {
+  return formData.get(key) === "on";
 }
 
 function generatedCode(prefix: string) {
@@ -169,3 +178,116 @@ export async function createLeadAction(formData: FormData) {
   revalidatePath("/crm");
 }
 
+export async function createInstructorAchievementAction(formData: FormData) {
+  const profile = await requireInstructorProfile();
+  const supabase = createSupabaseAdmin();
+
+  if (supabase) {
+    const title = text(formData, "title");
+
+    if (!title) {
+      throw new Error("Judul achievement wajib diisi.");
+    }
+
+    const { error } = await supabase.from("instructor_achievements").insert({
+      instructor_id: profile.instructorId,
+      achievement_type: text(formData, "achievement_type", "Competition"),
+      title,
+      year: numberValue(formData, "year") || null,
+      location: text(formData, "location") || null,
+      category: text(formData, "category") || null,
+      dance_style: text(formData, "dance_style") || null,
+      rank: text(formData, "rank") || null,
+      organizer: text(formData, "organizer") || null,
+      proof_url: text(formData, "proof_url") || null,
+      status: "Pending Verification",
+      is_public: checked(formData, "is_public"),
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const { count } = await supabase
+      .from("instructor_achievements")
+      .select("id", { count: "exact", head: true })
+      .eq("instructor_id", profile.instructorId);
+
+    await supabase
+      .from("instructors")
+      .update({ achievements_count: count ?? 0 })
+      .eq("id", profile.instructorId);
+  }
+
+  revalidatePath("/instruktur");
+  revalidatePath("/instructors");
+}
+
+export async function createMemberFeedbackAction(formData: FormData) {
+  const profile = await requireInstructorProfile();
+  const supabase = createSupabaseAdmin();
+
+  if (supabase) {
+    const memberId = text(formData, "member_id");
+
+    if (!memberId) {
+      throw new Error("Pilih member terlebih dahulu.");
+    }
+
+    const { data: classes, error: classError } = await supabase
+      .from("classes")
+      .select("id")
+      .or(
+        `instructor_id.eq.${profile.instructorId},assistant_instructor_id.eq.${profile.instructorId}`,
+      );
+
+    if (classError) {
+      throw new Error(classError.message);
+    }
+
+    const classIds = (classes ?? []).map((item) => item.id);
+    const enrollmentCheck = classIds.length
+      ? await supabase
+          .from("class_enrollments")
+          .select("id")
+          .eq("member_id", memberId)
+          .in("class_id", classIds)
+          .limit(1)
+      : { data: [] };
+
+    const attendanceCheck = await supabase
+      .from("attendance")
+      .select("id")
+      .eq("member_id", memberId)
+      .eq("instructor_id", profile.instructorId)
+      .limit(1);
+
+    if (!enrollmentCheck.data?.length && !attendanceCheck.data?.length) {
+      throw new Error("Member ini belum terdaftar di kelas instruktur.");
+    }
+
+    const { error } = await supabase.from("assessments").insert({
+      member_id: memberId,
+      instructor_id: profile.instructorId,
+      assessed_at: text(formData, "assessed_at", new Date().toISOString().slice(0, 10)),
+      level: text(formData, "level", "Foundation"),
+      technique: scoreValue(formData, "technique"),
+      posture: scoreValue(formData, "posture"),
+      timing: scoreValue(formData, "timing"),
+      musicality: scoreValue(formData, "musicality"),
+      partnering: scoreValue(formData, "partnering"),
+      expression: scoreValue(formData, "expression"),
+      floorcraft: scoreValue(formData, "floorcraft"),
+      confidence: scoreValue(formData, "confidence"),
+      feedback: text(formData, "feedback"),
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  revalidatePath("/instruktur");
+  revalidatePath("/member");
+  revalidatePath("/progress");
+}

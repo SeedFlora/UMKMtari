@@ -16,6 +16,8 @@ Full-stack Next.js + Supabase app untuk Bumi Sangkuriang Dance Sport.
 - Class management
 - Attendance management
 - Instructor portfolio summary
+- Portal instruktur untuk cek kelas, tambah achievement, dan beri feedback member
+- Portal member untuk cek jadwal, attendance, profil instruktur, feedback, dan progress level
 - Financial management dan cash flow
 - Instructor honor calculation
 - Event management
@@ -37,8 +39,9 @@ Tanpa env Supabase, aplikasi berjalan dalam mode demo memakai seed data lokal.
 
 1. Buat project Supabase.
 2. Jalankan `supabase/schema.sql` di SQL Editor Supabase.
-3. Jalankan `supabase/seed.sql` untuk data awal.
-4. Isi env:
+3. Jalankan `supabase/portal_features.sql` untuk policy akses portal instruktur/member.
+4. Jalankan `supabase/seed.sql` untuk data awal.
+5. Isi env:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=...
@@ -47,6 +50,15 @@ SUPABASE_SERVICE_ROLE_KEY=...
 ```
 
 `SUPABASE_SERVICE_ROLE_KEY` hanya dipakai di server untuk dashboard admin dan Server Actions. Jangan gunakan key ini di client component.
+
+### Link Akun Portal
+
+Setelah membuat user di Supabase Authentication, hubungkan user ke data bisnis melalui tabel `profiles`.
+Template SQL ada di `supabase/portal_features.sql`.
+
+- Role `instruktur` wajib punya `instructor_id`.
+- Role `member` wajib punya `member_id`.
+- Setelah login, instruktur diarahkan ke `/instruktur` dan member diarahkan ke `/member`.
 
 ## Deploy ke Vercel
 
@@ -63,4 +75,3 @@ SUPABASE_SERVICE_ROLE_KEY=...
 - `GET /api/members`
 - `POST /api/members`
 - `GET /api/export/members`
-

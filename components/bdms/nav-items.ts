@@ -14,7 +14,9 @@ import {
   UsersRound,
 } from "lucide-react";
 
-export const navItems = [
+import type { AppRole } from "@/lib/bdms/auth";
+
+export const adminNavItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/members", label: "Members", icon: UsersRound },
   { href: "/classes", label: "Classes", icon: CalendarDays },
@@ -29,9 +31,22 @@ export const navItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
+export const instructorNavItems = [
+  { href: "/instruktur", label: "Portal Instruktur", icon: UserRoundCog },
+] as const;
+
+export const memberNavItems = [
+  { href: "/member", label: "Portal Member", icon: GraduationCap },
+] as const;
+
+export function getNavItemsForRole(role?: AppRole | null) {
+  if (role === "instruktur") return instructorNavItems;
+  if (role === "member") return memberNavItems;
+  return adminNavItems;
+}
+
 export const secondaryNavItems = [
   { label: "Financial Transparency", value: "80% / 20%", icon: BarChart3 },
   { label: "Digital Dance Passport", value: "Phase 3", icon: Medal },
   { label: "Instructor Portfolio", value: "Verified", icon: UserRoundCog },
 ] as const;
-

@@ -6,14 +6,23 @@ import { AuthButton } from "@/components/auth-button";
 import { CurrentDate } from "@/components/bdms/current-date";
 import { EnvVarWarning } from "@/components/env-var-warning";
 import { MobileNav } from "@/components/bdms/mobile-nav";
-import { navItems, secondaryNavItems } from "@/components/bdms/nav-items";
+import { getNavItemsForRole, secondaryNavItems } from "@/components/bdms/nav-items";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import type { CurrentProfile } from "@/lib/bdms/auth";
 import { hasEnvVars } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
-function Sidebar() {
+function Sidebar({ profile }: { profile: CurrentProfile | null }) {
+  const navItems = getNavItemsForRole(profile?.role);
+  const brandCaption =
+    profile?.role === "instruktur"
+      ? "Portal Instruktur"
+      : profile?.role === "member"
+        ? "Portal Member"
+        : "Bumi Sangkuriang Dance Sport";
+
   return (
     <aside className="hidden border-r border-border/80 bg-sidebar/95 lg:block">
       <div className="flex h-screen flex-col">
@@ -24,7 +33,7 @@ function Sidebar() {
             </div>
             <div>
               <p className="text-sm font-semibold tracking-normal text-foreground">BDMS</p>
-              <p className="text-xs text-muted-foreground">Bumi Sangkuriang Dance Sport</p>
+              <p className="text-xs text-muted-foreground">{brandCaption}</p>
             </div>
           </Link>
         </div>
@@ -73,14 +82,20 @@ function Sidebar() {
   );
 }
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({
+  children,
+  profile,
+}: {
+  children: React.ReactNode;
+  profile: CurrentProfile | null;
+}) {
   return (
     <div className="min-h-screen bg-[hsl(var(--background))] text-foreground lg:grid lg:grid-cols-[280px_1fr]">
-      <Sidebar />
+      <Sidebar profile={profile} />
       <div className="min-w-0">
         <header className="sticky top-0 z-30 border-b border-border/80 bg-background/92 backdrop-blur">
           <div className="flex h-16 items-center gap-3 px-4 md:px-6">
-            <MobileNav />
+            <MobileNav role={profile?.role} />
             <div className="relative hidden w-full max-w-md md:block">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input

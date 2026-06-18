@@ -12,11 +12,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { navItems } from "@/components/bdms/nav-items";
+import { getNavItemsForRole } from "@/components/bdms/nav-items";
+import type { AppRole } from "@/lib/bdms/auth";
 import { cn } from "@/lib/utils";
 
-export function MobileNav() {
+export function MobileNav({ role }: { role?: AppRole | null }) {
   const pathname = usePathname();
+  const navItems = getNavItemsForRole(role);
 
   return (
     <Sheet>
@@ -57,4 +59,3 @@ export function MobileNav() {
     </Sheet>
   );
 }
-

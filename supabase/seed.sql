@@ -17,6 +17,19 @@ insert into public.member_levels (id, name, sort_order, description) values
   ('20000000-0000-0000-0000-000000000006', 'Performance / Competition', 6, 'Fokus performa, kompetisi, dan representasi komunitas.')
 on conflict (name) do nothing;
 
+insert into public.skill_matrix (
+  id, level_id, dance_style_id, skill_name, description, sort_order
+) values
+  ('21000000-0000-0000-0000-000000000001', '20000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', 'Posture & frame', 'Menjaga postur dasar dan frame pasangan.', 1),
+  ('21000000-0000-0000-0000-000000000002', '20000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000004', 'Basic rhythm', 'Mengenali hitungan dasar dan perubahan tempo.', 2),
+  ('21000000-0000-0000-0000-000000000003', '20000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000001', 'Natural turn', 'Kontrol rotasi, arah, dan timing natural turn.', 1),
+  ('21000000-0000-0000-0000-000000000004', '20000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000001', 'Reverse turn', 'Keseimbangan reverse turn dengan pasangan.', 2),
+  ('21000000-0000-0000-0000-000000000005', '20000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000002', 'Foxtrot timing', 'Timing slow-quick-quick dan kualitas gliding.', 1),
+  ('21000000-0000-0000-0000-000000000006', '20000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000002', 'Partner connection', 'Lead-follow dan respons partner work.', 2),
+  ('21000000-0000-0000-0000-000000000007', '20000000-0000-0000-0000-000000000004', '10000000-0000-0000-0000-000000000007', 'Floorcraft', 'Navigasi lantai dan etika social dance.', 1),
+  ('21000000-0000-0000-0000-000000000008', '20000000-0000-0000-0000-000000000005', '10000000-0000-0000-0000-000000000006', 'Performance presence', 'Ekspresi, projection, dan kesiapan showcase.', 1)
+on conflict (id) do nothing;
+
 insert into public.members (
   id, member_code, full_name, phone, email, joined_at, status,
   membership_type, current_level, classes_taken, attendance_rate, notes
@@ -36,6 +49,16 @@ insert into public.instructors (
   ('40000000-0000-0000-0000-000000000002', 'BSDS-I-002', 'Ratna Sari', '0813-2100-4002', 'ratna.sari@example.com', 'Aktif', 'Professional Instructor', array['Cha Cha', 'Rumba', 'Samba'], 18, 9400000, 5, 'Instruktur latin dance dengan fokus musicality dan expression.'),
   ('40000000-0000-0000-0000-000000000003', 'BSDS-I-003', 'Galih Pamungkas', '0813-2100-4003', 'galih.p@example.com', 'Guest instructor', 'Maestro', array['Tango', 'Social Dance'], 7, 4100000, 11, 'Guest coach untuk teknik partner work dan floorcraft.')
 on conflict (instructor_code) do nothing;
+
+insert into public.instructor_achievements (
+  id, instructor_id, achievement_type, title, year, location, category,
+  dance_style, rank, organizer, status, is_public
+) values
+  ('41000000-0000-0000-0000-000000000001', '40000000-0000-0000-0000-000000000001', 'Competition', 'National Ballroom Championship', 2024, 'Jakarta', 'Senior Amateur', 'Waltz', 'Finalist', 'IODI', 'Approved', true),
+  ('41000000-0000-0000-0000-000000000002', '40000000-0000-0000-0000-000000000001', 'Certification', 'Standard Dance Coaching Clinic', 2025, 'Bandung', 'Coach Development', 'Foxtrot', null, 'DanceSport Indonesia', 'Approved', true),
+  ('41000000-0000-0000-0000-000000000003', '40000000-0000-0000-0000-000000000002', 'Showcase', 'Latin Heritage Showcase', 2025, 'Bandung', 'Professional Performance', 'Rumba', 'Featured Performer', 'BSDS', 'Approved', true),
+  ('41000000-0000-0000-0000-000000000004', '40000000-0000-0000-0000-000000000003', 'Workshop', 'Floorcraft Intensive Guest Coach', 2026, 'Bandung', 'Partnering', 'Social Dance', null, 'Bumi Sangkuriang', 'Pending Verification', false)
+on conflict (id) do nothing;
 
 insert into public.revenue_sharing (activity_type, instructor_percentage, community_percentage) values
   ('Kelas reguler', 80, 20),
@@ -57,6 +80,16 @@ insert into public.classes (
   ('50000000-0000-0000-0000-000000000004', 'BSDS-C-004', 'Social Dance Night Prep', 'Special class', 'All level', '10000000-0000-0000-0000-000000000007', 'Social Dance', '40000000-0000-0000-0000-000000000003', null, 'Jumat', '19:00', '21:00', 'Pendopo', 40, 150000, 'Aktif', 31, 4650000, 84)
 on conflict (class_code) do nothing;
 
+insert into public.class_enrollments (id, class_id, member_id, enrolled_at, status) values
+  ('51000000-0000-0000-0000-000000000001', '50000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', '2026-01-12', 'Aktif'),
+  ('51000000-0000-0000-0000-000000000002', '50000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000002', '2025-10-04', 'Aktif'),
+  ('51000000-0000-0000-0000-000000000003', '50000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000003', '2026-05-19', 'Trial'),
+  ('51000000-0000-0000-0000-000000000004', '50000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000005', '2024-08-15', 'Aktif'),
+  ('51000000-0000-0000-0000-000000000005', '50000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000002', '2026-02-01', 'Aktif'),
+  ('51000000-0000-0000-0000-000000000006', '50000000-0000-0000-0000-000000000004', '30000000-0000-0000-0000-000000000004', '2025-03-27', 'Cuti'),
+  ('51000000-0000-0000-0000-000000000007', '50000000-0000-0000-0000-000000000004', '30000000-0000-0000-0000-000000000005', '2026-01-20', 'Aktif')
+on conflict (class_id, member_id) do nothing;
+
 insert into public.attendance (
   id, date, class_id, member_id, instructor_id, status, check_in_time, method, notes
 ) values
@@ -65,6 +98,25 @@ insert into public.attendance (
   ('60000000-0000-0000-0000-000000000003', '2026-06-05', '50000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000003', '40000000-0000-0000-0000-000000000002', 'Izin', null, 'Admin check-in', 'Reschedule trial.'),
   ('60000000-0000-0000-0000-000000000004', '2026-06-07', '50000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000002', '40000000-0000-0000-0000-000000000001', 'Hadir', '09:56', 'Instruktur check-in', null)
 on conflict (id) do nothing;
+
+insert into public.assessments (
+  id, member_id, instructor_id, assessed_at, level, technique, posture, timing,
+  musicality, partnering, expression, floorcraft, confidence, feedback
+) values
+  ('61000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', '40000000-0000-0000-0000-000000000001', '2026-06-08', 'Beginner', 3.8, 3.6, 3.5, 3.7, 3.4, 3.6, 3.5, 3.8, 'Posture sudah stabil. Latihan Natural Turn dan rise-fall perlu dibuat lebih lembut.'),
+  ('61000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000002', '40000000-0000-0000-0000-000000000001', '2026-06-09', 'Bronze', 4.1, 4.0, 3.9, 4.0, 4.2, 3.8, 4.3, 4.1, 'Floorcraft membaik. Fokus berikutnya polish Foxtrot timing dan travel distance.'),
+  ('61000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000003', '40000000-0000-0000-0000-000000000002', '2026-06-10', 'Foundation', 3.0, 3.2, 3.1, 3.3, 2.9, 3.4, 2.8, 3.2, 'Trial bagus, cepat menangkap ritme Cha Cha. Perlu ulang basic weight transfer.'),
+  ('61000000-0000-0000-0000-000000000004', '30000000-0000-0000-0000-000000000005', '40000000-0000-0000-0000-000000000002', '2026-06-12', 'Gold', 4.4, 4.5, 4.2, 4.6, 4.3, 4.7, 4.4, 4.6, 'Siap masuk latihan showcase. Kuat di expression, tinggal rapikan stamina untuk routine panjang.')
+on conflict (id) do nothing;
+
+insert into public.member_skill_progress (id, member_id, skill_id, status, updated_by) values
+  ('62000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', '21000000-0000-0000-0000-000000000003', 'Dikuasai', '40000000-0000-0000-0000-000000000001'),
+  ('62000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000001', '21000000-0000-0000-0000-000000000004', 'Dalam latihan', '40000000-0000-0000-0000-000000000001'),
+  ('62000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000002', '21000000-0000-0000-0000-000000000005', 'Dikuasai', '40000000-0000-0000-0000-000000000001'),
+  ('62000000-0000-0000-0000-000000000004', '30000000-0000-0000-0000-000000000002', '21000000-0000-0000-0000-000000000006', 'Lulus assessment', '40000000-0000-0000-0000-000000000001'),
+  ('62000000-0000-0000-0000-000000000005', '30000000-0000-0000-0000-000000000003', '21000000-0000-0000-0000-000000000001', 'Dalam latihan', '40000000-0000-0000-0000-000000000002'),
+  ('62000000-0000-0000-0000-000000000006', '30000000-0000-0000-0000-000000000005', '21000000-0000-0000-0000-000000000008', 'Dikuasai', '40000000-0000-0000-0000-000000000002')
+on conflict (member_id, skill_id) do nothing;
 
 insert into public.payments (
   id, invoice_no, member_id, payer_name, category, amount, status, due_date, paid_at
@@ -117,3 +169,10 @@ insert into public.badges (id, name, description, icon, requirement) values
   ('c0000000-0000-0000-0000-000000000005', 'Bronze Achiever', 'Naik ke level Bronze.', 'trophy', 'level Bronze')
 on conflict (name) do nothing;
 
+insert into public.member_badges (id, member_id, badge_id, awarded_at) values
+  ('d0000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', '2026-01-12'),
+  ('d0000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000002', '2026-04-02'),
+  ('d0000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000003', '2026-05-18'),
+  ('d0000000-0000-0000-0000-000000000004', '30000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000005', '2026-06-09'),
+  ('d0000000-0000-0000-0000-000000000005', '30000000-0000-0000-0000-000000000005', 'c0000000-0000-0000-0000-000000000004', '2026-06-12')
+on conflict (member_id, badge_id) do nothing;
